@@ -28,9 +28,11 @@
     self.restClient.delegate = self;
     self.activityIndicator.hidesWhenStopped = YES;
     
-    self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[self.photos objectAtIndex:self.currentIndex]]];
-    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.imageView sizeToFit];
+    if (self.currentIndex != NSNotFound) {
+            self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[self.photos objectAtIndex:self.currentIndex]]];
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.imageView sizeToFit];
+    }
     self.imageNotUploadedLabel.hidden = YES;
 }
 
@@ -106,7 +108,7 @@
     self.uploadButton.enabled = YES;
     self.imageView.alpha = 1.0;
 
-    [self imageNotUploaded:NO];
+//    [self imageNotUploaded:NO];
     [self.restClient loadMetadata:@"/"];
 }
 
@@ -136,6 +138,7 @@
             }
         }
     }
+    [self imageNotUploaded:NO];
 }
 
 #pragma mark - IBAction Methods

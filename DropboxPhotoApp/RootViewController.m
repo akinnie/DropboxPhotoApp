@@ -74,11 +74,9 @@
     if (sender == self.takePhotoButton) {
         CameraViewController *cameraViewController = segue.destinationViewController;
         cameraViewController.photos = self.photos;
-        NSString *photoPath = [cameraViewController.photos objectAtIndex:0];
-        
-        if (photoPath) {
-            cameraViewController.currentIndex = 0;
-        }
+
+        cameraViewController.currentIndex = (self.photos.count > 0) ? 0 : NSNotFound;
+
     } else if (sender == self.viewPhotosButton) {
         PhotosCollectionViewController *photosCollectionViewController = segue.destinationViewController;
         photosCollectionViewController.photos = self.photos;
