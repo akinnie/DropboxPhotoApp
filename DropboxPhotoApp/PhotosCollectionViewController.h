@@ -10,4 +10,6 @@
 
 @interface PhotosCollectionViewController : UICollectionViewController
 
+@property (nonatomic, strong) NSMutableArray *photos;
+
 @end

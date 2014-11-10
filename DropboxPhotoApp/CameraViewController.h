@@ -15,9 +15,14 @@ UINavigationControllerDelegate>
 @property BOOL newImage;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *forwardButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *imageNotUploadedLabel;
 
-@property (nonatomic, strong) NSString *currentImage;
+@property (nonatomic, strong) NSMutableArray *photos;
+
+@property (nonatomic, assign) NSUInteger currentIndex;
 
 - (IBAction)takePhoto:(id)sender;
 - (IBAction)backAction:(id)sender;

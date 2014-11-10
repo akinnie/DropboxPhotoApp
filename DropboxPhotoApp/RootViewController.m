@@ -8,8 +8,12 @@
 
 #import "RootViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "CameraViewController.h"
+#import "PhotosCollectionViewController.h"
 
-@interface RootViewController ()
+@interface RootViewController () <DBRestClientDelegate>
+
+@property (nonatomic, strong) DBRestClient* restClient;
 
 @end
 
@@ -17,9 +21,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view, typically from a nib.
     
-//    [self setupButtons];
+    self.photos = [[NSMutableArray alloc] init];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupButtons) name:@"DropboxLinkedNotification" object:nil];
 
 }
@@ -37,7 +43,14 @@
 - (void)setupButtons {
     BOOL accountLinked = [[DBSession sharedSession] isLinked];
     self.takePhotoButton.enabled = accountLinked ? YES : NO;
-    self.viewPhotosButton.enabled = accountLinked ? YES : NO;
+    self.viewPhotosButton.enabled = (accountLinked && self.photos.count > 0)? YES : NO;
+    
+    if (self.photos.count == 0 &&  accountLinked) {
+        [self.restClient loadMetadata:@"/"];
+    } else if (!accountLinked) {
+        self.photos = nil;
+        self.photos = [[NSMutableArray alloc] init];
+    }
     
     NSString *loginButtonTitle = accountLinked ? @"Logout" : @"Link to Dropbox";
     [self.loginButton setTitle: loginButtonTitle forState: UIControlStateNormal];
@@ -56,36 +69,65 @@
     [self setupButtons];
 }
 
-//- (IBAction)didPressPhotos {
-//    [self.navigationController pushViewController:photoViewController animated:YES];
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if (sender == self.takePhotoButton) {
+        CameraViewController *cameraViewController = segue.destinationViewController;
+        cameraViewController.photos = self.photos;
+        NSString *photoPath = [cameraViewController.photos objectAtIndex:0];
+        
+        if (photoPath) {
+            cameraViewController.currentIndex = 0;
+        }
+    } else if (sender == self.viewPhotosButton) {
+        PhotosCollectionViewController *photosCollectionViewController = segue.destinationViewController;
+        photosCollectionViewController.photos = self.photos;
+    }
 
+}
 
+- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
+    
+    NSArray* validExtensions = [NSArray arrayWithObjects:@"jpg", @"jpeg", nil];
+    
+    if (!self.photos) {
+        self.photos = [[NSMutableArray alloc] init];
+    }
+    for (DBMetadata* fileObject in metadata.contents) {
+        NSString* extension = [[fileObject.path pathExtension] lowercaseString];
+        if (!fileObject.isDirectory && [validExtensions indexOfObject:extension] != NSNotFound) {
+            [self.photos addObject:fileObject.path];
+            [self.restClient loadFile:fileObject.path intoPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[fileObject.path lastPathComponent]]];
+        }
+    }
+    
+    [self setupButtons];
 
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
-//                                               initWithTitle:@"Photos" style:UIBarButtonItemStylePlain
-//                                               target:self action:@selector(didPressPhotos)] autorelease];
-//    self.title = @"Link Account";
-//}
+}
 
-//- (void)viewDidUnload {
-//    linkButton = nil;
-//}
+- (void)restClient:(DBRestClient*)client metadataUnchangedAtPath:(NSString*)path {
+    NSLog(@"metadata unchanged at path: %@", path);
+}
 
-//- (void)dealloc {
-//    [linkButton release];
-//    [photoViewController release];
-//    [super dealloc];
-//}
+- (void)restClient:(DBRestClient*)client loadMetadataFailedWithError:(NSError*)error {
+    NSLog(@"restClient:loadMetadataFailedWithError: %@", [error localizedDescription]);
+}
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-//        return toInterfaceOrientation == UIInterfaceOrientationPortrait;
-//    } else {
-//        return YES;
-//    }
-//}
+- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath
+       contentType:(NSString *)contentType metadata:(DBMetadata *)metadata {
+    NSLog(@"File loaded into path: %@", localPath);
+}
+
+- (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error {
+    NSLog(@"There was an error loading the file: %@", [error localizedDescription]);
+}
+
+- (DBRestClient*)restClient {
+    if (_restClient == nil) {
+        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        _restClient.delegate = self;
+    }
+    return _restClient;
+}
 
 @end

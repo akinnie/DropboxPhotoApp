@@ -15,6 +15,8 @@
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, strong) NSString *currentImageURL;
 
+- (void)imageNotUploaded:(BOOL)notUploaded;
+
 @end
 
 @implementation CameraViewController
@@ -26,7 +28,10 @@
     self.restClient.delegate = self;
     self.activityIndicator.hidesWhenStopped = YES;
     
-    self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:self.currentImage]];
+    self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[self.photos objectAtIndex:self.currentIndex]]];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.imageView sizeToFit];
+    self.imageNotUploadedLabel.hidden = YES;
 }
 
 - (IBAction)takePhoto:(id)sender {
@@ -69,7 +74,8 @@
                 } else {
                     NSLog(@"url %@", assetURL);
                     self.currentImageURL = [assetURL absoluteString];
-                }  
+                    [self imageNotUploaded:YES];
+                }
             }];
 
         }
@@ -100,6 +106,8 @@
     self.uploadButton.enabled = YES;
     self.imageView.alpha = 1.0;
 
+    [self imageNotUploaded:NO];
+    [self.restClient loadMetadata:@"/"];
 }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
@@ -107,15 +115,52 @@
     [self.activityIndicator stopAnimating];
     self.uploadButton.enabled = YES;
     self.imageView.alpha = 1.0;
+    
+    [self imageNotUploaded:YES];
 
+}
+
+- (void)restClient:(DBRestClient*)client loadedMetadata:(DBMetadata*)metadata {
+    
+    NSArray* validExtensions = [NSArray arrayWithObjects:@"jpg", @"jpeg", nil];
+    
+    if (!self.photos) {
+        self.photos = [[NSMutableArray alloc] init];
+    }
+    for (DBMetadata* fileObject in metadata.contents) {
+        NSString* extension = [[fileObject.path pathExtension] lowercaseString];
+        if (!fileObject.isDirectory && [validExtensions indexOfObject:extension] != NSNotFound) {
+            if ([self.photos indexOfObject:fileObject.path] == NSNotFound) {
+                [self.photos addObject:fileObject.path];
+                [self.restClient loadFile:fileObject.path intoPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[fileObject.path lastPathComponent]]];
+            }
+        }
+    }
 }
 
 #pragma mark - IBAction Methods
 
 - (IBAction)backAction:(id)sender {
+    
+    if (self.currentIndex < self.photos.count -1) {
+//        self.currentImage = [self.photos objectAtIndex:[self.photos indexOfObject:self.currentImage] +1];
+        self.currentIndex++;
+    } else {
+        self.currentIndex = 0;
+    }
+    self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[self.photos objectAtIndex:self.currentIndex]]];
 }
 
 - (IBAction)forwardAction:(id)sender {
+
+    if (self.currentIndex > 0) {
+        //        self.currentImage = [self.photos objectAtIndex:[self.photos indexOfObject:self.currentImage] +1];
+        self.currentIndex--;
+    } else {
+        self.currentIndex = self.photos.count -1;
+    }
+    self.imageView.image = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[self.photos objectAtIndex:self.currentIndex]]];
+
 }
 
 - (IBAction)uploadButton:(id)sender {
@@ -145,6 +190,7 @@
     [self.activityIndicator startAnimating];
     self.uploadButton.enabled = NO;
     self.imageView.alpha = 0.5;
+    
 }
 
 - (void)displayAlertWithTitle:(NSString*)titleString andMessage:(NSString*)messageString {
@@ -152,6 +198,12 @@
       initWithTitle:titleString message:messageString
       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
      show];
+}
+
+- (void)imageNotUploaded:(BOOL)notUploaded {
+    self.backButton.enabled = (notUploaded) ? NO : YES;
+    self.forwardButton.enabled = (notUploaded) ? NO : YES;
+    self.imageNotUploadedLabel.hidden = (notUploaded) ? NO : YES;
 }
 
 @end

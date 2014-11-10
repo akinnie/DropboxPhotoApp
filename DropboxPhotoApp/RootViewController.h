@@ -10,6 +10,8 @@
 
 @interface RootViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableArray *photos;
+
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;

@@ -81,6 +81,9 @@
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZY-HJ-Lgv">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="FH8-nU-noo"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem systemItem="rewind" id="SQL-jd-IVT">
                                         <connections>
@@ -107,36 +110,65 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wnB-47-fVc">
-                                <rect key="frame" x="290" y="300" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="wnB-47-fVc">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hRg-Kq-e5d">
                                 <rect key="frame" x="0.0" y="44" width="600" height="512"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo Not Yet Uploaded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6l-Rn-iij">
+                                <rect key="frame" x="170" y="46" width="261" height="28"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="A22-VW-lMS" firstAttribute="top" secondItem="EZY-HJ-Lgv" secondAttribute="bottom" id="2WM-se-CtA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hRg-Kq-e5d" secondAttribute="trailing" constant="-16" id="2vS-8d-gDA"/>
+                            <constraint firstItem="EZY-HJ-Lgv" firstAttribute="top" secondItem="hRg-Kq-e5d" secondAttribute="bottom" id="2wB-bL-aXV"/>
                             <constraint firstItem="hRg-Kq-e5d" firstAttribute="bottom" secondItem="EZY-HJ-Lgv" secondAttribute="top" id="Deh-CR-hK7"/>
                             <constraint firstItem="hRg-Kq-e5d" firstAttribute="top" secondItem="zX9-XF-DUa" secondAttribute="bottom" id="Ivr-me-KZU"/>
                             <constraint firstItem="EZY-HJ-Lgv" firstAttribute="bottom" secondItem="A22-VW-lMS" secondAttribute="top" id="Mmz-AI-4hL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EZY-HJ-Lgv" secondAttribute="trailing" constant="-16" id="PdP-ot-Lyo"/>
                             <constraint firstItem="wnB-47-fVc" firstAttribute="centerX" secondItem="hRg-Kq-e5d" secondAttribute="centerX" id="RbV-2s-fDV"/>
+                            <constraint firstItem="hRg-Kq-e5d" firstAttribute="top" secondItem="zX9-XF-DUa" secondAttribute="bottom" id="T7W-gy-Kgj"/>
                             <constraint firstItem="hRg-Kq-e5d" firstAttribute="leading" secondItem="EZY-HJ-Lgv" secondAttribute="leading" id="X2r-wC-3il"/>
+                            <constraint firstItem="EZY-HJ-Lgv" firstAttribute="bottom" secondItem="A22-VW-lMS" secondAttribute="top" id="cK1-uV-QWv"/>
                             <constraint firstAttribute="trailing" secondItem="hRg-Kq-e5d" secondAttribute="trailing" id="eZe-A6-dmh"/>
+                            <constraint firstItem="A22-VW-lMS" firstAttribute="top" secondItem="EZY-HJ-Lgv" secondAttribute="bottom" id="h6a-ng-DMb"/>
                             <constraint firstItem="hRg-Kq-e5d" firstAttribute="leading" secondItem="JcF-Rw-5fo" secondAttribute="leading" id="iUX-zV-n6I"/>
                             <constraint firstItem="hRg-Kq-e5d" firstAttribute="trailing" secondItem="EZY-HJ-Lgv" secondAttribute="trailing" id="kzb-QB-qNn"/>
+                            <constraint firstItem="EZY-HJ-Lgv" firstAttribute="leading" secondItem="JcF-Rw-5fo" secondAttribute="leadingMargin" constant="-16" id="mbq-ZV-haJ"/>
+                            <constraint firstItem="EZY-HJ-Lgv" firstAttribute="top" secondItem="hRg-Kq-e5d" secondAttribute="bottom" id="mv0-2w-SJN"/>
+                            <constraint firstItem="A22-VW-lMS" firstAttribute="top" secondItem="EZY-HJ-Lgv" secondAttribute="bottom" id="obT-KF-Uv9"/>
+                            <constraint firstItem="hRg-Kq-e5d" firstAttribute="top" secondItem="Z6l-Rn-iij" secondAttribute="bottom" constant="-30" id="pFB-AQ-35z"/>
+                            <constraint firstItem="hRg-Kq-e5d" firstAttribute="centerX" secondItem="Z6l-Rn-iij" secondAttribute="centerX" constant="-0.5" id="qNT-Kp-INl"/>
+                            <constraint firstItem="EZY-HJ-Lgv" firstAttribute="top" secondItem="hRg-Kq-e5d" secondAttribute="bottom" id="rIo-GM-LSc"/>
                             <constraint firstItem="wnB-47-fVc" firstAttribute="centerY" secondItem="hRg-Kq-e5d" secondAttribute="centerY" id="uNZ-tJ-MMZ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="2vS-8d-gDA"/>
+                                <exclude reference="Deh-CR-hK7"/>
+                                <exclude reference="X2r-wC-3il"/>
+                                <exclude reference="kzb-QB-qNn"/>
+                                <exclude reference="Mmz-AI-4hL"/>
+                                <exclude reference="mv0-2w-SJN"/>
+                                <exclude reference="rIo-GM-LSc"/>
+                                <exclude reference="2WM-se-CtA"/>
+                                <exclude reference="h6a-ng-DMb"/>
+                                <exclude reference="obT-KF-Uv9"/>
                             </mask>
                         </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="wnB-47-fVc" id="GYm-HJ-0lV"/>
+                        <outlet property="backButton" destination="SQL-jd-IVT" id="In7-9U-Mx6"/>
+                        <outlet property="forwardButton" destination="Wb2-Ux-m40" id="Bl3-rY-wuD"/>
+                        <outlet property="imageNotUploadedLabel" destination="Z6l-Rn-iij" id="e5s-Sc-PBz"/>
                         <outlet property="imageView" destination="hRg-Kq-e5d" id="yyr-lZ-XxF"/>
                         <outlet property="uploadButton" destination="hv7-b1-3gM" id="JcF-O3-p5Q"/>
                     </connections>
