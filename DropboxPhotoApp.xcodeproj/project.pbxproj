@@ -27,6 +27,8 @@
 		262C6D151A0CC9410099FC24 /* PhotosCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 262C6D131A0CC9410099FC24 /* PhotosCollectionViewController.m */; };
 		262C6D1B1A0DE74A0099FC24 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262C6D1A1A0DE74A0099FC24 /* DropboxSDK.framework */; };
 		262C6D1C1A0DE74A0099FC24 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262C6D1A1A0DE74A0099FC24 /* DropboxSDK.framework */; };
+		266835E81A108E34004FBD7B /* dropbox-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 266835E71A108E34004FBD7B /* dropbox-black.png */; };
+		266835E91A108E34004FBD7B /* dropbox-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 266835E71A108E34004FBD7B /* dropbox-black.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,7 @@
 		262C6D121A0CC9410099FC24 /* PhotosCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosCollectionViewController.h; sourceTree = "<group>"; };
 		262C6D131A0CC9410099FC24 /* PhotosCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosCollectionViewController.m; sourceTree = "<group>"; };
 		262C6D1A1A0DE74A0099FC24 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		266835E71A108E34004FBD7B /* dropbox-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox-black.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,7 @@
 			children = (
 				261CDD301A0EC489004174EE /* Classes */,
 				262C6CE31A0C99F50099FC24 /* Main.storyboard */,
+				266835E71A108E34004FBD7B /* dropbox-black.png */,
 				262C6CE61A0C99F50099FC24 /* Images.xcassets */,
 				262C6CE81A0C99F50099FC24 /* LaunchScreen.xib */,
 				262C6CD91A0C99F50099FC24 /* Supporting Files */,
@@ -255,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266835E81A108E34004FBD7B /* dropbox-black.png in Resources */,
 				262C6CE51A0C99F50099FC24 /* Main.storyboard in Resources */,
 				262C6CEA1A0C99F50099FC24 /* LaunchScreen.xib in Resources */,
 				262C6CE71A0C99F50099FC24 /* Images.xcassets in Resources */,
@@ -265,6 +270,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266835E91A108E34004FBD7B /* dropbox-black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

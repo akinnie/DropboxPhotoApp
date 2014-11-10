@@ -108,7 +108,6 @@
     self.uploadButton.enabled = YES;
     self.imageView.alpha = 1.0;
 
-//    [self imageNotUploaded:NO];
     [self.restClient loadMetadata:@"/"];
 }
 
@@ -146,7 +145,6 @@
 - (IBAction)backAction:(id)sender {
     
     if (self.currentIndex < self.photos.count -1) {
-//        self.currentImage = [self.photos objectAtIndex:[self.photos indexOfObject:self.currentImage] +1];
         self.currentIndex++;
     } else {
         self.currentIndex = 0;
@@ -157,7 +155,6 @@
 - (IBAction)forwardAction:(id)sender {
 
     if (self.currentIndex > 0) {
-        //        self.currentImage = [self.photos objectAtIndex:[self.photos indexOfObject:self.currentImage] +1];
         self.currentIndex--;
     } else {
         self.currentIndex = self.photos.count -1;
@@ -207,6 +204,18 @@
     self.backButton.enabled = (notUploaded) ? NO : YES;
     self.forwardButton.enabled = (notUploaded) ? NO : YES;
     self.imageNotUploadedLabel.hidden = (notUploaded) ? NO : YES;
+}
+
+-(IBAction)shareButtonTapped:(id)sender {
+    NSArray* arrayWithImage = @[self.imageView.image];
+    
+    UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:arrayWithImage applicationActivities:nil];
+    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {
+        activityViewController.popoverPresentationController.barButtonItem = self.uploadButton;
+    }
+    [self.navigationController presentViewController:activityViewController animated:YES completion:^{
+        NSLog(@"share completed...");
+    }];
 }
 
 @end

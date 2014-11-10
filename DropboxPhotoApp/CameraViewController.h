@@ -29,4 +29,6 @@ UINavigationControllerDelegate>
 - (IBAction)forwardAction:(id)sender;
 - (IBAction)uploadButton:(id)sender;
 
+- (IBAction)shareButtonTapped:(id)sender;
+
 @end
